@@ -15,7 +15,9 @@ class BooksController extends Controller
             'author' => request('author'),
         ]);*/
 //        Book::create($data);
-        Book::create($this->validateRequest());
+        $book = Book::create($this->validateRequest());
+//        return redirect('/books/'.$book->id);
+        return redirect($book->path());
     }
 
     public function update(Book $book){
@@ -24,6 +26,16 @@ class BooksController extends Controller
 
 //        $book->update($data);
         $book->update($this->validateRequest());
+//        return redirect('/books/'.$book->id);
+        return redirect($book->path());
+
+    }
+
+    public function destroy(Book $book) {
+
+        $book->delete();
+
+        return redirect('/books');
 
     }
 
@@ -37,4 +49,6 @@ class BooksController extends Controller
             'author' => 'required',
         ]);
     }
+
+
 }
