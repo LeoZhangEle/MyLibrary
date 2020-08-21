@@ -20,17 +20,21 @@ class Book extends Model
 
     public function checkout($user){
 
-       $this->reservations()->create([
+       $reservation = $this->reservations()->create([
+//       $reservation = Reservation::create([
            'user_id' => $user->id,
             'checked_out_at' => now(),
+
         ]);
+
+//       dd( $reservation);
     }
 
     public  function checkin($user){
 
         $reservation = $this->reservations()->where('user_id',$user->id)
             ->whereNotNull('checked_out_at')
-       //     ->whereNull('checked_in_at') // 此句是确保已经确保 书已经借出状态，才能归还，
+            ->whereNull('checked_in_at') // 此句是确保已经确保 书已经借出状态，才能归还，
             ->first();                          // 不能 覆盖已经 还书的 check_ed_in_at 状态
 
 
